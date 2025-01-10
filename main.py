@@ -72,3 +72,30 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+import os
+from flask import Flask
+from threading import Thread
+
+# Create a Flask app
+app = Flask(__name__)
+
+# Basic route to confirm the bot is running
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+# Function to run the Flask web server
+def run_flask():
+    port = int(os.environ.get("PORT", 8080))  # Use the PORT environment variable if available
+    app.run(host='0.0.0.0', port=port)
+
+# Add this to the end of your existing code to start Flask in a separate thread
+if __name__ == "__main__":
+    # Start Flask in a separate thread so it doesn't block the bot
+    flask_thread = Thread(target=run_flask)
+    flask_thread.start()
+
+    # Your existing code to run the Telegram bot (assuming you have it in place already)
+    # Replace `run_telegram_bot()` with your existing bot setup
+    run_telegram_bot()  # or whatever function starts your bot
