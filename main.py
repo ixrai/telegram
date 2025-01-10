@@ -1,7 +1,16 @@
+import os
+import logging
 import aiohttp
+from flask import Flask
+from threading import Thread
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 from bs4 import BeautifulSoup
+
+# Set up logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Function to check if the anime is available by scraping the site
 async def is_anime_available(anime_name):
@@ -70,13 +79,6 @@ def main():
     # Start the bot
     application.run_polling()
 
-if __name__ == "__main__":
-    main()
-
-import os
-from flask import Flask
-from threading import Thread
-
 # Create a Flask app
 app = Flask(__name__)
 
@@ -96,6 +98,5 @@ if __name__ == "__main__":
     flask_thread = Thread(target=run_flask)
     flask_thread.start()
 
-    # Your existing code to run the Telegram bot (assuming you have it in place already)
-    # Replace `run_telegram_bot()` with your existing bot setup
-    run_telegram_bot()  # or whatever function starts your bot
+    # Run the Telegram bot
+    main()  # This was missing and needed to start the bot
