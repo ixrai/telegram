@@ -43,7 +43,7 @@ async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await message.reply_text(reply_message, parse_mode='Markdown')
             else:
                 reply_message = (
-                    "Sorry, we couldn't find that anime.\n"
+                    "Sorry, we couldn't find that anime.\n" 
                     "Please check the name or try again.\n"
                     "If anime is not available, go to Chat Group: t.me/blakitechats and comment there."
                 )
