@@ -25,11 +25,12 @@ async def is_anime_available(anime_name):
 # Function to handle user messages and respond
 async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
-    bot_username = (await context.bot.get_me()).username
+    bot_username = (await context.bot.get_me()).username  # Get the bot's username dynamically
 
-    # Check if the bot is mentioned or called by its username
-    if f"@{bot_username}" in message.text or message.text.lower().startswith("bot"):
-        anime_name = message.text.replace(f"@{bot_username}", "").replace("bot", "").strip()
+    # If the message contains the bot mention
+    if f"@{bot_username}" in message.text:
+        # Extract the anime name after removing the bot mention
+        anime_name = message.text.replace(f"@{bot_username}", "").strip()
         if anime_name:
             await message.reply_text("Please wait... Searching now...")
             available, search_url = await is_anime_available(anime_name)
@@ -53,13 +54,15 @@ async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 parse_mode='Markdown'
             )
     else:
-        # Ignore messages that do not call the bot
+        # Ignore messages that do not mention the bot
         return
 
 # Main function to set up the bot
 def main():
     application = Application.builder().token("7803638695:AAGY4G0A8qCImLZkGZnGGFBRzOwG9AqeAkc").build()
+    # Add a message handler for user text input (checking if the message contains bot mention)
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search_anime))
+    # Start the bot
     application.run_polling()
 
 if __name__ == "__main__":
