@@ -59,7 +59,7 @@ async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Main function to set up the bot
 def main():
-    application = Application.builder().token("YOUR_BOT_TOKEN").build()
+    application = Application.builder().token("7803638695:AAGY4G0A8qCImLZkGZnGGFBRzOwG9AqeAkc").build()
     # Add a message handler for user text input
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search_anime))
     # Start the bot
