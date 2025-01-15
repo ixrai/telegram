@@ -27,9 +27,8 @@ async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
     bot_username = (await context.bot.get_me()).username
 
-    # Check if the bot is explicitly mentioned
-    if f"@{bot_username}" in message.text or message.text.strip().lower().startswith("bot"):
-        # Extract the anime name after removing the bot mention
+    # Check if the bot is mentioned or called by its username
+    if f"@{bot_username}" in message.text or message.text.lower().startswith("bot"):
         anime_name = message.text.replace(f"@{bot_username}", "").replace("bot", "").strip()
         if anime_name:
             await message.reply_text("Please wait... Searching now...")
@@ -43,7 +42,7 @@ async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await message.reply_text(reply_message, parse_mode='Markdown')
             else:
                 reply_message = (
-                    "Sorry, we couldn't find that anime.\n" 
+                    "Sorry, we couldn't find that anime.\n"
                     "Please check the name or try again.\n"
                     "If anime is not available, go to Chat Group: t.me/blakitechats and comment there."
                 )
@@ -60,9 +59,7 @@ async def search_anime(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Main function to set up the bot
 def main():
     application = Application.builder().token("7803638695:AAGY4G0A8qCImLZkGZnGGFBRzOwG9AqeAkc").build()
-    # Add a message handler for user text input
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search_anime))
-    # Start the bot
     application.run_polling()
 
 if __name__ == "__main__":
